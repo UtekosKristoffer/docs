@@ -1,7 +1,6 @@
 ---
 id: QueryClientProvider
 title: QueryClientProvider
-
 ---
 
 Use the `QueryClientProvider` component to connect and provide a `QueryClient` to your application:
@@ -21,4 +20,3 @@ function App() {
 - `client: QueryClient`
   - **Required**
   - the QueryClient instance to provide
-
