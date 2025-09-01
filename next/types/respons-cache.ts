@@ -2,6 +2,15 @@ import type { OutgoingHttpHeaders } from 'http';
 import type RenderResult from '../render-result';
 import type { CacheControl, Revalidate } from '../lib/cache-control';
 import type { RouteKind } from '../route-kind';
+import { IncrementalCacheKind, type IncrementalResponseCacheEntry, type ResponseCacheEntry } from './types';
+import { RouteKind } from '../route-kind';
+import type { ResponseCacheEntry, ResponseGenerator } from './types';
+
+
+export declare function fromResponseCacheEntry(cacheEntry: ResponseCacheEntry): Promise<IncrementalResponseCacheEntry>;
+export declare function toResponseCacheEntry(response: IncrementalResponseCacheEntry | null): Promise<ResponseCacheEntry | null>;
+export declare function routeKindToIncrementalCacheKind(routeKind: RouteKind): Exclude<IncrementalCacheKind, IncrementalCacheKind.FETCH>;
+
 export interface ResponseCacheBase {
     get(key: string | null, responseGenerator: ResponseGenerator, context: {
         isOnDemandRevalidate?: boolean;
@@ -182,6 +191,27 @@ export interface SetIncrementalResponseCacheContext {
      */
     isFallback?: boolean;
 }
+
+/**
+ * In the web server, there is currently no incremental cache provided and we
+ * always SSR the page.
+ */
+export default class WebResponseCache {
+    pendingResponses: Map<string, Promise<ResponseCacheEntry | null>>;
+    previousCacheItem?: {
+        key: string;
+        entry: ResponseCacheEntry | null;
+        expiresAt: number;
+    };
+    minimalMode?: boolean;
+    constructor(minimalMode: boolean);
+    get(key: string | null, responseGenerator: ResponseGenerator, context: {
+        isOnDemandRevalidate?: boolean;
+        isPrefetch?: boolean;
+        incrementalCache: any;
+    }): Promise<ResponseCacheEntry | null>;
+}
+
 export interface IncrementalResponseCache {
     get(cacheKey: string, ctx: GetIncrementalResponseCacheContext): Promise<IncrementalResponseCacheEntry | null>;
     set(key: string, data: Exclude<IncrementalCacheValue, CachedFetchValue> | null, ctx: SetIncrementalResponseCacheContext): Promise<void>;
