@@ -3,6 +3,7 @@ import type { DomainLocale } from '../../../server/config';
 import type { I18NConfig } from '../../../server/config-shared';
 import type { DomainLocale, I18NConfig } from '../config-shared';
 import { type NextIncomingMessage } from '../request-meta';
+
 /**
  * The result of matching a locale aware route.
  */
