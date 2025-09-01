@@ -3,6 +3,22 @@ import type { IncomingMessage } from 'http';
 import type { BaseNextRequest } from '../base-http';
 import type { NextApiResponse } from '../../shared/lib/utils';
 import type { ReadonlyURLSearchParams } from 'next/navigation'
+import type { Params } from '../../server/request/params';
+export declare const SearchParamsContext: import("react").Context<URLSearchParams | null>;
+export declare const PathnameContext: import("react").Context<string | null>;
+export declare const PathParamsContext: import("react").Context<Params | null>;
+
+import React, { type JSX } from 'react';
+export declare function defaultHead(inAmpMode?: boolean): JSX.Element[];
+/**
+ * This component injects elements to `<head>` of your page.
+ * To avoid duplicated `tags` in `<head>` you can use the `key` property, which will make sure every tag is only rendered once.
+ */
+declare function Head({ children }: {
+    children: React.ReactNode;
+}): import("react/jsx-runtime").JSX.Element;
+export default Head;
+
 
 declare module 'next/navigation' {
   /**
