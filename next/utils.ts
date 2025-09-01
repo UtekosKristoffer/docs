@@ -8,6 +8,9 @@ export declare const SearchParamsContext: import("react").Context<URLSearchParam
 export declare const PathnameContext: import("react").Context<string | null>;
 export declare const PathParamsContext: import("react").Context<Params | null>;
 
+export declare function matchNextDataPathname(pathname: string | null | undefined): false | Record<string, any>;
+
+
 import React, { type JSX } from 'react';
 export declare function defaultHead(inAmpMode?: boolean): JSX.Element[];
 /**
